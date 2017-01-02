@@ -2,11 +2,29 @@
 import simplegui
 import random
 import math
-times = 0
+
+number_range = 100
+
+secret_number = 0
 # helper function to start and restart the game
 def new_game():
-    # initialize global variables used in your code here
+    global number_range
+    
+    global times_left
+    if number_range == 100:
+        times_left = 7
+    elif number_range == 1000:
+        times_left = 10
+        
+    global secret_number
+    
+    secret_number = random.randint(0,number_range)
+    return secret_number
+
     print"Let's start the game!\n"
+
+        
+    print"%d times guesses left"%times_left
 
       
     
@@ -15,34 +33,42 @@ def new_game():
 # define event handlers for control panel
 def range100():
     # button that changes the range to [0,100) and starts a new game 
-    global secret_number
-    secret_number = random.randint(0,100)
-    return secret_number
+    global number_range
+    number_range = 100
+    new_game()
 
-    # remove this when you add your code    
+        
     
 
 def range1000():
     # button that changes the range to [0,1000) and starts a new game     
-    global secret_number
-    secret_number = random.randint(0,1000)
+    global number_range
+    number_range = 1000
+    new_game()
 
     
     
 def input_guess(guess):
     # main game logic goes here	
-    global number
-    number = int(guess)
-    print "Guess is ",number,".",
-    global times
-    times = times + 1
-    print"You have played %d times."%times
-    if number < secret_number:
-        print "Higher!\n"
-    elif number > secret_number:
-        print "Lower!\n"
+    global times_left
+    global secret_number
+    
+    print "Your number is %d."%int(guess)
+    times_left = times_left - 1
+    print "You have %d times left."%times_left
+    
+    if secret_number == int(guess):
+        print"Coreect!\n"
+        new_game()
+    elif secret_number > int(guess):
+        print"Higher!\n"
     else:
-        print "Correct!\n"
+        print"Lower!\n"
+    
+    if times_left == 0:
+        print"Times up!Let's do it again!\n"
+        new_game()
+    
     
     
 
@@ -57,6 +83,5 @@ frame.add_input("your number",input_guess,200)
 
 # call new_game 
 new_game()
+frame.start()
 
-
-# always remember to check your complet
