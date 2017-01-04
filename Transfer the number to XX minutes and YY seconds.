@@ -1,0 +1,36 @@
+# Define a function that returns formatted minutes and seconds
+import simplegui
+value = 500
+###################################################
+# Time formatting function
+# Student should enter function on the next lines.
+def format_time(number):
+    minutes = str(number // 60)
+    seconds = str(number % 60)
+    result = minutes+" minutes"+" and "+seconds+"seconds."
+    return result
+
+# define draw handler
+def draw(canvas):
+    canvas.draw_text(format_time(value),[100,100],24,"White")
+
+#define input handler field 
+def input_handler(text):
+    global value
+    value = int(text)
+
+#cteate frame registe draw handler  add input field
+frame = simplegui.create_frame("Transfer",400,200)
+frame.set_draw_handler(draw)
+frame.add_input("number",input_handler,200)
+frame.start()
+
+
+###################################################
+# Tests
+
+print format_time(23)
+print format_time(1237)
+print format_time(0)
+print format_time(1860)
+
